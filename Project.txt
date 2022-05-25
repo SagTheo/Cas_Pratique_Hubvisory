@@ -1,0 +1,22 @@
+Thought process:
+
+-> figuring out how the api works (retrieving names and pictures of actors and movies)
+        -> actor: https://api.themoviedb.org/3/person/${personId}?api_key=${apiKey}
+        -> actor picture: https://api.themoviedb.org/3/person/${personId}/images?api_key=${apiKey}
+        -> movie: https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${apiKey}
+        -> movie picture: https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}
+
+-> figuring out a way to build the quizz
+        -> ideas:
+            Issue#1 --> when app starts, ids of all the actors and movies are retrieved and stored in array
+                            -> for actors: request should filter out items which "known_for_department" property !== "Acting"
+                                and items which have "status_code" property
+            -one id from actors array and one id from movies array are picked randomly
+            -question is displayed with actor's name and movie's name based on those ids (along with pictures)
+            -user answers yes or no
+            -server checks answer thanks to the ids
+                -> server calls https://api.themoviedb.org/3/person/{person_id}/movie_credits?api_key=<<api_key>>&language=en-US
+                -> filters the response to look for the movie id 
+                -> if movie id found : correct answer, if not : wrong answer
+                -> server sends back yes or no
+                -> server response compared to user answer
