@@ -9,8 +9,16 @@ Thought process:
 -> figuring out a way to build the quizz
         -> ideas:
             Issue#1 --> when app starts, ids of all the actors and movies are retrieved and stored in array
+                        --> found a better way:
+                            -possible to download all valid ids there:
+                                    -http://files.tmdb.org/p/exports/movie_ids_MM_DD_YYYY.json.gz
+                                    -http://files.tmdb.org/p/exports/person_ids_MM_DD_YYYY.json.gz
+                            - wrote script to retrieve the first 100000 movie and person ids and 
+                              place them in an array (see ids folder)
+                                    
                             -> for actors: request should filter out items which "known_for_department" property !== "Acting"
                                 and items which have "status_code" property
+                                
             -one id from actors array and one id from movies array are picked randomly
             -question is displayed with actor's name and movie's name based on those ids (along with pictures)
             -user answers yes or no

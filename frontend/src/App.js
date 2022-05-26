@@ -7,15 +7,8 @@ function App() {
   // const [testMovieName, setTestMovieName] = useState('')
   // const [testMoviePicture, setTestMoviePicture] = useState('')
   // const [testQuestion, setTestQuestion] = useState('')
-  const [ids, setIds] = useState([])
 
   useEffect(() => {  
-    fetch('http://localhost:3001/loadIds')
-      .then(res => res.json())
-      .then(data => console.log(data.response))
-      // .then(data => setIds(data.response))
-      .catch(err => console.log(err))
-
     // fetch('http://localhost:3001/testName')
     //   .then(res => res.json())
     //   .then(data => setTestName(data.response))
@@ -44,10 +37,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* {
-        ids.map(id => <p>{id}</p>)
-      } */}
-
       {/* <p>{testQuestion}</p> */}
 
       {/* <p>{testName}</p>

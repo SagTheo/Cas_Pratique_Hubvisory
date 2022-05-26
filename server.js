@@ -12,6 +12,7 @@ app.use(cors({
 app.use(bodyParser.json())
 
 const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
+
 // const personId = 342
 // const movieId = 65
 
@@ -56,43 +57,5 @@ const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
 //             }
 //         })
 // })
-
-let ids = []
-
-/*
-
-  Needs work
-
-*/
-// app.get('/loadIds', async (req, res) => { 
-//     for (let i = 1; i < 1000; i++) {
-//         const result = await fetch(`https://api.themoviedb.org/3/person/${i}?api_key=${apiKey}`)
-//         const parsedResult = await result.json()
-        
-//         if (parsedResult.known_for_department && parsedResult.known_for_department === "Acting") {
-//             ids.push(parsedResult.id)
-//         }
-//     }
-    
-//     res.json({response: ids})
-// })
-
-/*
-
-  Needs work
-
-*/
-app.get('/loadIds', async (req, res) => {
-    for (let i = 1; i < 10; i++) {
-        const result = await fetch(`https://api.themoviedb.org/3/movie/${i}?api_key=${apiKey}`)
-        const parsedResult = await result.json()
-        
-        if (parsedResult.id !== null) {
-          ids.push(parsedResult.id)  
-        }
-    }
-    
-    res.json({response: ids})
-})
 
 app.listen(3001, console.log('server started')) 
