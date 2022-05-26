@@ -18,7 +18,7 @@ Thought process:
                                     
                             -> for actors: request should filter out items which "known_for_department" property !== "Acting"
                                 and items which have "status_code" property
-                                
+
             -one id from actors array and one id from movies array are picked randomly
             -question is displayed with actor's name and movie's name based on those ids (along with pictures)
             -user answers yes or no
@@ -28,3 +28,6 @@ Thought process:
                 -> if movie id found : correct answer, if not : wrong answer
                 -> server sends back yes or no
                 -> server response compared to user answer
+
+-> to display score after a game and save it in-between attempts:
+                --> use React Context API ?
