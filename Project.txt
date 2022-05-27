@@ -35,5 +35,5 @@ Thought process:
                 -> server sends back yes or no
                 -> server response compared to user answer
 
--> to display score after a game and save it in-between attempts:
+Issue#4 --> to display score after a game and save it in-between attempts:
                 --> use React Context API ?

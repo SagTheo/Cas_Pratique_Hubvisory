@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../component/Button'
 import Picture from '../component/Picture'
 import Footer from '../component/Footer'
+import { HighscoreContext } from '../context/highscore-context'
 
 const Quizz = () => {
   const [actorName, setActorName] = useState('')
@@ -11,6 +12,7 @@ const Quizz = () => {
   const [moviePicture, setMoviePicture] = useState('')
   const [score, setScore] = useState(0)
   const [timer, setTimer] = useState(60)
+  const highscore = useContext(HighscoreContext)
   const navigate = useNavigate()
 
   const getQuestion = () => {
@@ -65,6 +67,9 @@ const Quizz = () => {
     }, 1000)
 
     if (timer === 0) {
+        if (score > highscore.highscore) {
+          highscore.updateHighscore(score)
+        }
         navigate('/game_over')
     }
 
@@ -80,6 +85,7 @@ const Quizz = () => {
         <div>
             <div>{timer}</div>
             <div>Score: {score}</div>
+            <div>Highscore: {highscore.highscore}</div>
         </div>
 
         <Picture picture={actorPicture} name={actorName} />
