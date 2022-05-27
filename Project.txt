@@ -17,13 +17,13 @@ Thought process:
                               place them in an array (see ids folder)
                                     
                             Issue#2 --> for actors: filter out items which "known_for_department" property !== "Acting"
+                                                    and "profile_path" !== null
                                         for movies: filter out items which "posters" property is empty(to retrieve picture)
                                                 --> need to write node script to filter out movieIds_100000 and personIds_100000 arrays
                                                 --> script end up failing when running on huge arrays
                                                         (even after chopping movieIds_100000 and personIds_100000 into arrays of 10000 items long)
-                                                        -> solution: -run filtering script on smaller array 
-                                                                     -in server.js, hardcode that array
-                                                                     -make requests to API based on that hardcoded array
+                                                        -> solution: -run filtering script on smaller personIds array and movieIds array
+                                                                     -make requests to API based on the resulting arrays
 
             -one id from actors array and one id from movies array are picked randomly
             -question is displayed with actor's name and movie's name based on those ids (along with pictures)

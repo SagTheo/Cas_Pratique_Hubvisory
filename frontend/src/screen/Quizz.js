@@ -14,8 +14,9 @@ const Quizz = () => {
   const navigate = useNavigate()
 
   const getQuestion = () => {
-    const randomActorId = Math.floor(Math.random() * 100000)
-    const randomMovieId = Math.floor(Math.random() * 100000)
+    //Numbers used to generate random ids come from getting lengths of filtered arrays(test.js)
+    const randomActorId = Math.floor(Math.random() * 196)
+    const randomMovieId = Math.floor(Math.random() * 436)
 
     fetch(`http://localhost:3001/actorName/${randomActorId}`)
       .then(res => res.json())

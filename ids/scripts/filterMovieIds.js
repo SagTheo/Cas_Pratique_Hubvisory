@@ -1,10 +1,8 @@
-// import { movies } from '../data/movieIdsChunks/movieIds_chunk_1.mjs'
+import { movies } from '../data/movieIdsChunks/movieIds_finalChunk.mjs'
 import fetch from 'node-fetch'
 import fs from 'fs'
 
-// const ids = movies()
-
-const ids = []
+const ids = movies()
 
 const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
 
