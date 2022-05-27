@@ -28,7 +28,7 @@ Thought process:
             -one id from actors array and one id from movies array are picked randomly
             -question is displayed with actor's name and movie's name based on those ids (along with pictures)
             -user answers yes or no
-            -server checks answer thanks to the ids
+        Issue# 3 -->server checks answer thanks to the ids
                 -> server calls https://api.themoviedb.org/3/person/{person_id}/movie_credits?api_key=<<api_key>>&language=en-US
                 -> filters the response to look for the movie id 
                 -> if movie id found : correct answer, if not : wrong answer

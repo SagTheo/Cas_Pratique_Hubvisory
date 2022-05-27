@@ -55,18 +55,21 @@ app.get('/moviePicture/:movieId', (req, res) => {
         .catch(err => console.log(err))
 })
 
-// app.get('/testQuestion', (req, res) => {
-//     fetch(`https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${apiKey}&language=en-US`)
-//         .then(res => res.json())
-//         .then(data => {
-//             const answer = data.cast.filter(item => item.id === movieId)
+app.get('/checkAnswer/:movieId/:personId', (req, res) => {
+    const movieId = movieIds[req.params.movieId]
+    const personId = personIds[req.params.personId]
 
-//             if (answer.length > 0) {
-//                 res.json({response: 'yes'}) //good answer
-//             } else {
-//                 res.json({response: 'no'})  //wrong answer
-//             }
-//         })
-// })
+    fetch(`https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${apiKey}&language=en-US`)
+        .then(res => res.json())
+        .then(data => {
+            const answer = data.cast.filter(item => item.id === movieId)
+
+            if (answer.length > 0) {
+                res.json({response: 'Yes'}) //good answer
+            } else {
+                res.json({response: 'No'})  //wrong answer
+            }
+        })
+})
 
 app.listen(3001, console.log('server started')) 

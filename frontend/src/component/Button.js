@@ -1,11 +1,10 @@
 import React from 'react'
 
-const Button = ({ label, getQuestion,  validateAnswer}) => {
+const Button = ({ label, validateAnswer}) => {
   return (
     <button
         onClick={() => {
-            getQuestion()
-            validateAnswer()
+            validateAnswer(label)
         }}
     >
         {label}

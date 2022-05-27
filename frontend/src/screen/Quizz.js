@@ -8,7 +8,6 @@ const Quizz = () => {
   const [actorPicture, setActorPicture] = useState('')
   const [movieName, setMovieName] = useState('')
   const [moviePicture, setMoviePicture] = useState('')
-  const [checkAnswer, setCheckAnswer] = useState('')
   const [score, setScore] = useState(0)
   const [timer, setTimer] = useState(60)
   const navigate = useNavigate()
@@ -17,6 +16,9 @@ const Quizz = () => {
     //Numbers used to generate random ids come from getting lengths of filtered arrays(test.js)
     const randomActorId = Math.floor(Math.random() * 196)
     const randomMovieId = Math.floor(Math.random() * 436)
+
+    localStorage.setItem('actorId', randomActorId)
+    localStorage.setItem('movieId', randomMovieId)
 
     fetch(`http://localhost:3001/actorName/${randomActorId}`)
       .then(res => res.json())
@@ -39,11 +41,20 @@ const Quizz = () => {
       .catch(err => console.log(err))
   }
 
-  const validateAnswer = () => {
-    // fetch('http://localhost:3001/checkAnswer')
-    //   .then(res => res.json())
-    //   .then(data => setCheckAnswer(data.response))
-    //   .catch(err => console.log(err))
+  const validateAnswer = (label) => {
+    const randomActorId = localStorage.getItem('actorId')
+    const randomMovieId = localStorage.getItem('movieId')
+    
+    fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.response === label) {
+          setScore(score + 1)
+        }
+
+        getQuestion()
+      })
+      .catch(err => console.log(err))
   }
 
   //To start the timer
@@ -75,8 +86,8 @@ const Quizz = () => {
 
         <p>Did {actorName} star in {movieName} ? </p>
 
-        <Button label='No' getQuestion={getQuestion} validateAnswer={validateAnswer} />
-        <Button label='Yes' getQuestion={getQuestion} validateAnswer={validateAnswer} />
+        <Button label='No' validateAnswer={(label) => validateAnswer(label)} />
+        <Button label='Yes' validateAnswer={(label) => validateAnswer(label)} />
     </div>
   )
 }
