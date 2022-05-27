@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../component/Button'
 import Picture from '../component/Picture'
+import Footer from '../component/Footer'
 
 const Quizz = () => {
   const [actorName, setActorName] = useState('')
@@ -44,7 +45,7 @@ const Quizz = () => {
   const validateAnswer = (label) => {
     const randomActorId = localStorage.getItem('actorId')
     const randomMovieId = localStorage.getItem('movieId')
-    
+
     fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
       .then(res => res.json())
       .then(data => {
@@ -88,6 +89,8 @@ const Quizz = () => {
 
         <Button label='No' validateAnswer={(label) => validateAnswer(label)} />
         <Button label='Yes' validateAnswer={(label) => validateAnswer(label)} />
+
+        <Footer />
     </div>
   )
 }

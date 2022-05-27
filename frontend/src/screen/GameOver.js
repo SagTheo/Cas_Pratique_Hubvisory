@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Footer from '../component/Footer'
 
 const GameOver = () => {
   return (
@@ -9,6 +10,8 @@ const GameOver = () => {
         <p>Total score: </p>
 
         <Link to='/quizz'>Retry</Link>
+
+        <Footer />
     </div>
   )
 }
