@@ -37,3 +37,8 @@ Thought process:
 
 Issue#4 --> to display score after a game and save it in-between attempts:
                 --> use React Context API ?
+
+
+Issue#5 --> find name for the app (sprint backlog -> Welcome screen)
+                                +
+                        style the app
