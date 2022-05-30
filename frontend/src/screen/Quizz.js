@@ -4,6 +4,7 @@ import Button from '../component/Button'
 import Picture from '../component/Picture'
 import Footer from '../component/Footer'
 import { HighscoreContext } from '../context/highscore-context'
+import styles from '../css/Quizz.module.css'
 
 const Quizz = () => {
   const [actorName, setActorName] = useState('')
@@ -61,20 +62,20 @@ const Quizz = () => {
   }
 
   //To start the timer
-  useEffect(() => {
-    const countdown = setTimeout(() => {
-        setTimer(timer - 1)
-    }, 1000)
+  // useEffect(() => {
+  //   const countdown = setTimeout(() => {
+  //       setTimer(timer - 1)
+  //   }, 1000)
 
-    if (timer === 0) {
-        if (score > highscore.highscore) {
-          highscore.updateHighscore(score)
-        }
-        navigate('/game_over')
-    }
+  //   if (timer === 0) {
+  //       if (score > highscore.highscore) {
+  //         highscore.updateHighscore(score)
+  //       }
+  //       navigate('/game_over')
+  //   }
 
-    return () => clearTimeout(countdown)
-  }, [timer])
+  //   return () => clearTimeout(countdown)
+  // }, [timer])
 
   useEffect(() => {
     getQuestion()

@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../tmdbLogo.svg'
+import logo from '../images/tmdbLogo.svg'
 import styles from '../css/Footer.module.css'
 
 const Footer = () => {

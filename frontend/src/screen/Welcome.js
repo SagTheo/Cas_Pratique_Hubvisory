@@ -9,7 +9,7 @@ const Welcome = () => {
         <h1 className={styles.h1}>Cine'quizz</h1>
 
         <div>
-          <p className={styles.text}>Welcome to the quizz ! You'll be asked a series of "yes" or "no" questions. 
+          <p className={styles.text}>Welcome to Cine'quizz ! You'll be asked a series of "yes" or "no" questions. 
               Answer as many as you can in the allowed time ! 
               Good luck !
           </p>

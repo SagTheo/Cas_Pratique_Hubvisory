@@ -8,12 +8,15 @@ const GameOver = () => {
   const highscore = useContext(HighscoreContext)
 
   return (
-    <div>
-        <h1>Game over</h1>
+    <div className={styles.container}>
+        <h1 className={styles.h1}>Game over</h1>
 
-        <p>Total score: {highscore.highscore}</p>
+        <div>
+          <p className={styles.text}>Total score: {highscore.highscore}</p>
 
-        <Link to='/quizz'>Retry</Link>
+          <Link to='/quizz' className={styles.retry}>Retry</Link>
+        </div>
+        
 
         <Footer />
     </div>
