@@ -1,0 +1,16 @@
+.container {
+    background-color: rgb(242, 238, 238);
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 3rem;
+    padding: 2rem;
+    width: fit-content;
+}
+
+.h1 {
+    color: #ffc426;
+}
+
+.link {
+    color: black;
+}

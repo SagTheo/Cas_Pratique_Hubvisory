@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../component/Footer'
 import { HighscoreContext } from '../context/highscore-context'
+import styles from '../css/GameOver.module.css'
 
 const GameOver = () => {
   const highscore = useContext(HighscoreContext)
