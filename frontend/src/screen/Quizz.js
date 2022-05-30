@@ -62,42 +62,45 @@ const Quizz = () => {
   }
 
   //To start the timer
-  // useEffect(() => {
-  //   const countdown = setTimeout(() => {
-  //       setTimer(timer - 1)
-  //   }, 1000)
+  useEffect(() => {
+    const countdown = setTimeout(() => {
+        setTimer(timer - 1)
+    }, 1000)
 
-  //   if (timer === 0) {
-  //       if (score > highscore.highscore) {
-  //         highscore.updateHighscore(score)
-  //       }
-  //       navigate('/game_over')
-  //   }
+    if (timer === 0) {
+        if (score > highscore.highscore) {
+          highscore.updateHighscore(score)
+          //To maintain highscore between games of different sessions
+          localStorage.setItem('highscore', score)
+        }
+        navigate('/game_over')
+    }
 
-  //   return () => clearTimeout(countdown)
-  // }, [timer])
+    return () => clearTimeout(countdown)
+  }, [timer])
 
   useEffect(() => {
     getQuestion()
   }, [])
 
   return (
-    <div>
-        <div>
-            <div>{timer}</div>
-            <div>Score: {score}</div>
-            <div>Highscore: {highscore.highscore}</div>
+    <div className={styles.container}>
+        <div className={styles.header}>
+            <div className={styles.timer}>{timer}</div>
+            <div>Score: {score} Highscore: {highscore.highscore}</div>
         </div>
 
-        <Picture picture={actorPicture} name={actorName} />
-        <Picture picture={moviePicture} name={movieName} />
+        <div>
+          <Picture picture={actorPicture} name={actorName} />
+          <Picture picture={moviePicture} name={movieName} />
 
-        <p>Did {actorName} star in {movieName} ? </p>
+          <p className={styles.question}>Did {actorName} star in {movieName} ? </p>
 
-        <Button label='No' validateAnswer={(label) => validateAnswer(label)} />
-        <Button label='Yes' validateAnswer={(label) => validateAnswer(label)} />
+          <Button label='No' validateAnswer={(label) => validateAnswer(label)} bg='red' />
+          <Button label='Yes' validateAnswer={(label) => validateAnswer(label)} bg='green' />
+        </div>
 
-        <Footer />
+        <Footer extraStyle='black' />
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { people } from './ids/data/filteredIds/filteredPersonIds.mjs'
 
 const movieIds = movies()
 const personIds = people()
+const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
 
 const app = express()
 
@@ -15,8 +16,6 @@ app.use(cors({
 }))
 
 app.use(bodyParser.json())
-
-const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
 
 
 app.get('/actorName/:personId', (req, res) => {
