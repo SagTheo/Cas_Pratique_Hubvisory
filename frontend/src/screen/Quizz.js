@@ -13,6 +13,7 @@ const Quizz = () => {
   const [moviePicture, setMoviePicture] = useState('')
   const [score, setScore] = useState(0)
   const [timer, setTimer] = useState(60)
+  const [tinder, setTinder] = useState(null)
   const highscore = useContext(HighscoreContext)
   const navigate = useNavigate()
 
@@ -83,6 +84,14 @@ const Quizz = () => {
     getQuestion()
   }, [])
 
+  //To reset tinder to null between each click so that the animation is triggered
+  //no matter if user clicks on same button multiple times in a row or not
+  useEffect(() => {
+    setTimeout(() => {
+      setTinder(null)
+    }, 300)
+  }, [tinder])
+
   return (
     <div className={styles.container}>
         <div className={styles.header}>
@@ -91,13 +100,24 @@ const Quizz = () => {
         </div>
 
         <div>
-          <Picture picture={actorPicture} name={actorName} />
-          <Picture picture={moviePicture} name={movieName} />
+          <div className={tinder === null ? null :
+                                tinder === 'No' ? styles.swipeLeft : styles.swipeRight}>
+            <Picture picture={actorPicture} name={actorName} />
+            <Picture picture={moviePicture} name={movieName} />
+          </div>  
 
           <p className={styles.question}>Did {actorName} star in {movieName} ? </p>
 
-          <Button label='No' validateAnswer={(label) => validateAnswer(label)} bg='red' />
-          <Button label='Yes' validateAnswer={(label) => validateAnswer(label)} bg='green' />
+          <Button label='No' 
+                  validateAnswer={(label) => validateAnswer(label)} 
+                  setTinder={setTinder}
+                  bg='red' 
+          />
+          <Button label='Yes' 
+                  validateAnswer={(label) => validateAnswer(label)} 
+                  setTinder={setTinder}
+                  bg='green' 
+          />
         </div>
 
         <Footer extraStyle='black' />
