@@ -10,7 +10,11 @@ const HighscoreProvider = ({ children }) => {
     return (
         <HighscoreContext.Provider value={{
             highscore,
-            updateHighscore: (newHighscore) => setHighscore(newHighscore)
+            updateHighscore: (newHighscore) => {
+                //To maintain highscore between games of different sessions
+                localStorage.setItem('highscore', newHighscore)
+                setHighscore(newHighscore)
+            } 
         }}>
             {children}
         </HighscoreContext.Provider>

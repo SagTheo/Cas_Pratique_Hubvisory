@@ -4,3 +4,5 @@
 /ids/data/movieIdsChunks
 /ids/data/originalIds
 /ids/data/personIdsChunks
+
+.env

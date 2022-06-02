@@ -46,14 +46,14 @@ const Quizz = () => {
       .catch(err => console.log(err))
   }
 
-  const validateAnswer = (label) => {
+  const validateAnswer = (id) => {
     const randomActorId = localStorage.getItem('actorId')
     const randomMovieId = localStorage.getItem('movieId')
 
     fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
       .then(res => res.json())
       .then(data => {
-        if (data.response === label) {
+        if (data.response === id) {
           setScore(score + 1)
         }
 
@@ -71,8 +71,6 @@ const Quizz = () => {
     if (timer === 0) {
         if (score > highscore.highscore) {
           highscore.updateHighscore(score)
-          //To maintain highscore between games of different sessions
-          localStorage.setItem('highscore', score)
         }
         navigate('/game_over')
     }
@@ -101,7 +99,7 @@ const Quizz = () => {
 
         <div>
           <div className={tinder === null ? null :
-                                tinder === 'No' ? styles.swipeLeft : styles.swipeRight}>
+                                tinder === '0' ? styles.swipeLeft : styles.swipeRight}>
             <Picture picture={actorPicture} name={actorName} />
             <Picture picture={moviePicture} name={movieName} />
           </div>  
@@ -109,12 +107,14 @@ const Quizz = () => {
           <p className={styles.question}>Did {actorName} star in {movieName} ? </p>
 
           <Button label='No' 
-                  validateAnswer={(label) => validateAnswer(label)} 
+                  id='0'
+                  validateAnswer={(id) => validateAnswer(id)}  
                   setTinder={setTinder}
                   bg='red' 
           />
           <Button label='Yes' 
-                  validateAnswer={(label) => validateAnswer(label)} 
+                  id='1'
+                  validateAnswer={(id) => validateAnswer(id)} 
                   setTinder={setTinder}
                   bg='green' 
           />

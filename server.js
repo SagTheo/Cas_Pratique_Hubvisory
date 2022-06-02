@@ -4,10 +4,11 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import { movies } from './ids/data/filteredIds/filteredMovieIds.mjs'
 import { people } from './ids/data/filteredIds/filteredPersonIds.mjs' 
+import 'dotenv/config'
 
 const movieIds = movies()
 const personIds = people()
-const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
+const apiKey = process.env.API_KEY
 
 const app = express()
 
@@ -64,9 +65,9 @@ app.get('/checkAnswer/:movieId/:personId', (req, res) => {
             const answer = data.cast.filter(item => item.id === movieId)
 
             if (answer.length > 0) {
-                res.json({response: 'Yes'}) //good answer
+                res.json({response: '1'}) //good answer 
             } else {
-                res.json({response: 'No'})  //wrong answer
+                res.json({response: '0'})  //wrong answer
             }
         })
 })
