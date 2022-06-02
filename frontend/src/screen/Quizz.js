@@ -14,16 +14,19 @@ const Quizz = () => {
   const [score, setScore] = useState(0)
   const [timer, setTimer] = useState(60)
   const [tinder, setTinder] = useState(null)
+  //randomActorId and randomMovieId have to be initialised here because 
+  //useState is asynchronous, therefore if not initialised here, 
+  //the fetch requests will be triggered with no value for randomActorId and
+  //randomMovieId, generating an error
+  const [randomActorId, setRandomActorId] = useState(Math.floor(Math.random() * 196))
+  const [randomMovieId, setRandomMovieId] = useState(Math.floor(Math.random() * 436))
   const highscore = useContext(HighscoreContext)
   const navigate = useNavigate()
 
   const getQuestion = () => {
     //Numbers used to generate random ids come from getting lengths of filtered arrays(test.js)
-    const randomActorId = Math.floor(Math.random() * 196)
-    const randomMovieId = Math.floor(Math.random() * 436)
-
-    localStorage.setItem('actorId', randomActorId)
-    localStorage.setItem('movieId', randomMovieId)
+    setRandomActorId(Math.floor(Math.random() * 196))
+    setRandomMovieId(Math.floor(Math.random() * 436))
 
     fetch(`http://localhost:3001/actorName/${randomActorId}`)
       .then(res => res.json())
@@ -47,9 +50,6 @@ const Quizz = () => {
   }
 
   const validateAnswer = (id) => {
-    const randomActorId = localStorage.getItem('actorId')
-    const randomMovieId = localStorage.getItem('movieId')
-
     fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
       .then(res => res.json())
       .then(data => {
