@@ -12,8 +12,8 @@ function App() {
       <HighscoreProvider>
         <Routes>
           <Route path='/' element={<Welcome />} />
-          <Route path='quizz' element={<Quizz />} />
-          <Route path='game_over' element={<GameOver />} />
+          <Route path='/quizz' element={<Quizz />} />
+          {/* <Route path='game_over' element={<GameOver />} /> */}
           <Route path='*' element={<NotFound />} />
         </Routes>
       </HighscoreProvider>

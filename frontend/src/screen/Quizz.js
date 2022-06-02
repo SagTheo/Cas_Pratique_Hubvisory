@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../component/Button'
 import Picture from '../component/Picture'
 import Footer from '../component/Footer'
+import GameOver from './GameOver'
 import { HighscoreContext } from '../context/highscore-context'
 import styles from '../css/Quizz.module.css'
 
@@ -12,8 +13,10 @@ const Quizz = () => {
   const [movieName, setMovieName] = useState('')
   const [moviePicture, setMoviePicture] = useState('')
   const [score, setScore] = useState(0)
-  const [timer, setTimer] = useState(60)
+  const [timer, setTimer] = useState(5)
   const [tinder, setTinder] = useState(null)
+  const [gameOver, setGameOver] = useState(false)
+
   //randomActorId and randomMovieId have to be initialised here because 
   //useState is asynchronous, therefore if not initialised here, 
   //the fetch requests will be triggered with no value for randomActorId and
@@ -49,7 +52,7 @@ const Quizz = () => {
       .catch(err => console.log(err))
   }
 
-  const validateAnswer = (id) => {
+  const validateAnswer = (id) => { 
     fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
       .then(res => res.json())
       .then(data => {
@@ -72,7 +75,7 @@ const Quizz = () => {
         if (score > highscore.highscore) {
           highscore.updateHighscore(score)
         }
-        navigate('/game_over')
+        setGameOver(true)
     }
 
     return () => clearTimeout(countdown)
@@ -91,7 +94,13 @@ const Quizz = () => {
   }, [tinder])
 
   return (
-    <div className={styles.container}>
+      gameOver ?
+
+      <GameOver setGameOver={setGameOver} />
+      
+      :
+
+      <div className={styles.container}>
         <div className={styles.header}>
             <div className={styles.timer}>{timer}</div>
             <div>Score: {score} Highscore: {highscore.highscore}</div>
@@ -121,7 +130,7 @@ const Quizz = () => {
         </div>
 
         <Footer extraStyle='black' />
-    </div>
+      </div>
   )
 }
 

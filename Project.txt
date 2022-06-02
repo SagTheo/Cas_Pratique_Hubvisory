@@ -46,6 +46,7 @@ Issue#5 --> find name for the app (sprint backlog -> Welcome screen)
 
 Room for improvement:
         #1-use state key for the randomly generated indexes
+                => done
 
         #2-use environment variable for api key
                 => done -> installed dotenv package, created .env file, imported 'dotenv/config' in server.js
@@ -58,6 +59,7 @@ Room for improvement:
                 => done -> set the highscore in the local storage in the updateHighscore function of the context
         
         #6-make Game over page a state rather than a route(user shouldn't be able to access /game_over)
-        
+                => use global state to control access to /game_over ?
+
         #7-improve response sent by server to check the answer(checking with the label -> bad idea) 
                 => done -> used id prop instead of label

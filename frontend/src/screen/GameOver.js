@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import Footer from '../component/Footer'
 import { HighscoreContext } from '../context/highscore-context'
 import styles from '../css/GameOver.module.css'
 
-const GameOver = () => {
+const GameOver = ({setGameOver }) => {
   const highscore = useContext(HighscoreContext)
 
   return (
@@ -14,7 +14,8 @@ const GameOver = () => {
         <div>
           <p className={styles.text}>Total score: {highscore.highscore}</p>
 
-          <Link to='/quizz' className={styles.retry}>Retry</Link>
+          {/* <Link to='/quizz' onClick={() => setGameOver(false)} className={styles.retry}>Retry</Link> */}
+          <button onClick={() => setGameOver(false)} className={styles.retry}>Retry</button>
         </div>
         
 
