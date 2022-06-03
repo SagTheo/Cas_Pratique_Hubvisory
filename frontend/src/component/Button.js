@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from '../css/Button.module.css'
 
-const Button = ({ label, id, validateAnswer, bg, setTinder}) => {
+const Button = ({ label, id, getQuestion, bg, setTinder}) => {
   return (
     <button
         onClick={() => {
-            validateAnswer(id)
+            getQuestion()
             setTinder(id)
         }}
         className={styles.button}

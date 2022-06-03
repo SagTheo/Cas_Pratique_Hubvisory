@@ -54,6 +54,20 @@ Room for improvement:
         #3-organise server.js as a REST API
         
         #4-make quizz more balanced -> check out 'Popular' section of tmdb
+                -> call https://api.themoviedb.org/3/person/popular?api_key=52f72bf521daa8cdd02ef83abfb71e5b&language=en-US&page=1
+                -> property "results"
+                -> for each object of "results" -> "name" (actor's name)
+                                                -> "profile_path" (actor's picture)
+                                                -> property "known_for" :
+                                                        for each object of "known_for"
+                                                        -> "title" (movie's title)
+                                                        -> "poster_path" (movie's picture)
+                -> to create question :
+                        -> generate random id between 0 and 20
+                        -> send it to server so that it can pick one element in the "results" property
+                        -> generate random id : 0 or 1
+                        -> if 0 : actor and movie shouldn't match
+                        -> if 1 : actor and movie should match
         
         #5-context: find way to persist the global state
                 => done -> set the highscore in the local storage in the updateHighscore function of the context

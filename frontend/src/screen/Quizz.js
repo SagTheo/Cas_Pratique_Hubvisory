@@ -13,77 +13,87 @@ const Quizz = () => {
   const [movieName, setMovieName] = useState('')
   const [moviePicture, setMoviePicture] = useState('')
   const [score, setScore] = useState(0)
-  const [timer, setTimer] = useState(15)
+  const [timer, setTimer] = useState(60)
   const [tinder, setTinder] = useState(null)
 
-  //randomActorId and randomMovieId have to be initialised here because 
+  /*randomActorId and randomMovieId have to be initialised here because 
   //useState is asynchronous, therefore if not initialised here, 
   //the fetch requests will be triggered with no value for randomActorId and
-  //randomMovieId, generating an error
-  const [randomActorId, setRandomActorId] = useState(Math.floor(Math.random() * 196))
-  const [randomMovieId, setRandomMovieId] = useState(Math.floor(Math.random() * 436))
+  randomMovieId, generating an error*/
+  // const [randomActorId, setRandomActorId] = useState(Math.floor(Math.random() * 196))
+  // const [randomMovieId, setRandomMovieId] = useState(Math.floor(Math.random() * 436))
 
   const highscore = useContext(HighscoreContext)
   const gameOver = useContext(GameOverContext)
   const navigate = useNavigate()
 
+  //To generate random id of 0 or 1
+  const zeroOrOne = () => {
+    if (Math.random() < 0.5) {
+      return 0
+    } else {
+      return 1
+    }
+  }
+
+  //To generate random index between 0 and 20
+  const randomIndex = () => {
+    return Math.floor(Math.random() * 20)
+  }
+
   const getQuestion = () => {
     //Numbers used to generate random ids come from getting lengths of filtered arrays(test.js)
-    setRandomActorId(Math.floor(Math.random() * 196))
-    setRandomMovieId(Math.floor(Math.random() * 436))
+    // setRandomActorId(Math.floor(Math.random() * 196))
+    // setRandomMovieId(Math.floor(Math.random() * 436))
 
-    fetch(`http://localhost:3001/actorName/${randomActorId}`)
-      .then(res => res.json())
-      .then(data => setActorName(data.response))
-      .catch(err => console.log(err))
+    const match = zeroOrOne()
+    const itemIndex = randomIndex()
+
+    console.log(itemIndex)
     
-    fetch(`http://localhost:3001/actorPicture/${randomActorId}`)
-      .then(res => res.json())
-      .then(data => setActorPicture(data.response))
-      .catch(err => console.log(err))
 
-    fetch(`http://localhost:3001/movieName/${randomMovieId}`)
+    fetch(`http://localhost:3001/getQuestion/${itemIndex}`)
       .then(res => res.json())
-      .then(data => setMovieName(data.response))
-      .catch(err => console.log(err))
-
-    fetch(`http://localhost:3001/moviePicture/${randomMovieId}`)
-      .then(res => res.json())
-      .then(data => setMoviePicture(data.response))
-      .catch(err => console.log(err))
-  }
-
-  const validateAnswer = (id) => { 
-    fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.response === id) {
-          setScore(score + 1)
-        }
-
-        getQuestion()
+      .then(response => {
+        setActorName(response.actor)
+        setActorPicture(response.actorPic)
+        setMovieName(response.movie)
+        setMoviePicture(response.moviePic)
       })
-      .catch(err => console.log(err))
+    
   }
+
+  // const validateAnswer = (id) => { 
+  //   fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       if (data.response === id) {
+  //         setScore(score + 1)
+  //       }
+
+  //       getQuestion()
+  //     })
+  //     .catch(err => console.log(err))
+  // }
 
   //To start the timer
-  useEffect(() => {
-    const countdown = setTimeout(() => {
-        setTimer(timer - 1)
-    }, 1000)
+  // useEffect(() => {
+  //   const countdown = setTimeout(() => {
+  //       setTimer(timer - 1)
+  //   }, 1000)
 
-    if (timer === 0) {
-        if (score > highscore.highscore) {
-          highscore.updateHighscore(score)
-        }
-        //Sets gammeOver.gameOver to true and therefore makes route to /game_over 
-        //accessible only when timer has reached 0
-        gameOver.updateGameOver()
-        navigate('/game_over')
-    }
+  //   if (timer === 0) {
+  //       if (score > highscore.highscore) {
+  //         highscore.updateHighscore(score)
+  //       }
+  //       //Sets gammeOver.gameOver to true and therefore makes route to /game_over 
+  //       //accessible only when timer has reached 0
+  //       gameOver.updateGameOver()
+  //       navigate('/game_over')
+  //   }
 
-    return () => clearTimeout(countdown)
-  }, [timer])
+  //   return () => clearTimeout(countdown)
+  // }, [timer])
 
   useEffect(() => {
     getQuestion()
@@ -115,13 +125,13 @@ const Quizz = () => {
 
           <Button label='No' 
                   id='0'
-                  validateAnswer={(id) => validateAnswer(id)}  
+                  getQuestion={() => getQuestion()}  
                   setTinder={setTinder}
                   bg='red' 
           />
           <Button label='Yes' 
                   id='1'
-                  validateAnswer={(id) => validateAnswer(id)} 
+                  getQuestion={() => getQuestion()} 
                   setTinder={setTinder}
                   bg='green' 
           />

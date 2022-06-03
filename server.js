@@ -8,7 +8,8 @@ import 'dotenv/config'
 
 const movieIds = movies()
 const personIds = people()
-const apiKey = process.env.API_KEY
+// const apiKey = process.env.API_KEY
+const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
 
 const app = express()
 
@@ -19,39 +20,22 @@ app.use(cors({
 app.use(bodyParser.json())
 
 
-app.get('/actorName/:personId', (req, res) => {
-    const personId = personIds[req.params.personId]
+app.get('/getQuestion/:itemIndex', (req, res) => {
+    const index = req.params.itemIndex
 
-    fetch(`https://api.themoviedb.org/3/person/${personId}?api_key=${apiKey}`)
+    fetch(`https://api.themoviedb.org/3/person/popular?api_key=${apiKey}=en-US&page=1`)
         .then(res => res.json())
-        .then(data => res.json({response: data.name}))
-        .catch(err => console.log(err))
-})
+        .then(data => {
+            console.log(data)
+            const results = data.results[index]
 
-app.get('/actorPicture/:personId', (req, res) => {
-    const personId = personIds[req.params.personId]
-
-    fetch(`https://api.themoviedb.org/3/person/${personId}/images?api_key=${apiKey}`)
-        .then(res => res.json())
-        .then(data => res.json({response: data.profiles[0].file_path}))
-        .catch(err => console.log(err))
-})
-
-app.get('/movieName/:movieId', (req, res) => {
-    const movieId = movieIds[req.params.movieId]
-
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
-        .then(res => res.json())
-        .then(data => res.json({response: data.original_title}))
-        .catch(err => console.log(err))
-})
-
-app.get('/moviePicture/:movieId', (req, res) => {
-    const movieId = movieIds[req.params.movieId]
-
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${apiKey}`)
-        .then(res => res.json())
-        .then(data => res.json({response: data.posters[0].file_path}))
+            res.json({response : {
+                actor: results.name,
+                actorPic: results.profile_path,
+                movie: results.known_for[0].title,
+                moviePic: results.known_for[0].poster_path
+            }})
+        })
         .catch(err => console.log(err))
 })
 
