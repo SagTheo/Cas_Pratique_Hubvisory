@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../component/Button'
 import Picture from '../component/Picture'
 import Footer from '../component/Footer'
-import GameOver from './GameOver'
 import { HighscoreContext } from '../context/highscore-context'
+import { GameOverContext } from '../context/gameOver-context'
 import styles from '../css/Quizz.module.css'
 
 const Quizz = () => {
@@ -13,9 +13,8 @@ const Quizz = () => {
   const [movieName, setMovieName] = useState('')
   const [moviePicture, setMoviePicture] = useState('')
   const [score, setScore] = useState(0)
-  const [timer, setTimer] = useState(5)
+  const [timer, setTimer] = useState(15)
   const [tinder, setTinder] = useState(null)
-  const [gameOver, setGameOver] = useState(false)
 
   //randomActorId and randomMovieId have to be initialised here because 
   //useState is asynchronous, therefore if not initialised here, 
@@ -23,7 +22,9 @@ const Quizz = () => {
   //randomMovieId, generating an error
   const [randomActorId, setRandomActorId] = useState(Math.floor(Math.random() * 196))
   const [randomMovieId, setRandomMovieId] = useState(Math.floor(Math.random() * 436))
+
   const highscore = useContext(HighscoreContext)
+  const gameOver = useContext(GameOverContext)
   const navigate = useNavigate()
 
   const getQuestion = () => {
@@ -75,7 +76,10 @@ const Quizz = () => {
         if (score > highscore.highscore) {
           highscore.updateHighscore(score)
         }
-        setGameOver(true)
+        //Sets gammeOver.gameOver to true and therefore makes route to /game_over 
+        //accessible only when timer has reached 0
+        gameOver.updateGameOver()
+        navigate('/game_over')
     }
 
     return () => clearTimeout(countdown)
@@ -94,12 +98,6 @@ const Quizz = () => {
   }, [tinder])
 
   return (
-      gameOver ?
-
-      <GameOver setGameOver={setGameOver} />
-      
-      :
-
       <div className={styles.container}>
         <div className={styles.header}>
             <div className={styles.timer}>{timer}</div>
