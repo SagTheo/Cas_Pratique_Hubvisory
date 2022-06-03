@@ -52,6 +52,9 @@ Room for improvement:
                 => done -> installed dotenv package, created .env file, imported 'dotenv/config' in server.js
         
         #3-organise server.js as a REST API
+                => done -> data returned by server is an object containing all the info 
+                           that needs to be displayed on the screen, reducing the numbers 
+                           of calls to the API to 1 instead of 4
         
         #4-make quizz more balanced -> check out 'Popular' section of tmdb
                 -> call https://api.themoviedb.org/3/person/popular?api_key=52f72bf521daa8cdd02ef83abfb71e5b&language=en-US&page=1
@@ -65,9 +68,10 @@ Room for improvement:
                 -> to create question :
                         -> generate random id between 0 and 20
                         -> send it to server so that it can pick one element in the "results" property
-                        -> generate random id : 0 or 1
-                        -> if 0 : actor and movie shouldn't match
-                        -> if 1 : actor and movie should match
+                        -> same thing for the page requested
+                
+                -> to check whether answer is valid or not : 
+                        -> answer will always be yes, but user doesn't know that !
         
         #5-context: find way to persist the global state
                 => done -> set the highscore in the local storage in the updateHighscore function of the context

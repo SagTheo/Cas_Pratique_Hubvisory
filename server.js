@@ -2,14 +2,19 @@ import express from 'express'
 import fetch from 'node-fetch'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import { movies } from './ids/data/filteredIds/filteredMovieIds.mjs'
-import { people } from './ids/data/filteredIds/filteredPersonIds.mjs' 
 import 'dotenv/config'
 
-const movieIds = movies()
-const personIds = people()
-// const apiKey = process.env.API_KEY
-const apiKey = '52f72bf521daa8cdd02ef83abfb71e5b'
+const apiKey = process.env.API_KEY
+
+const zeroOrOneOrTwo = () => {
+    if (Math.random() < 0.3) {
+        return 0
+    } else if (Math.random() < 0.6) {
+        return 1
+    } else {
+        return 2
+    }
+}
 
 const app = express()
 
@@ -20,40 +25,27 @@ app.use(cors({
 app.use(bodyParser.json())
 
 
-app.get('/getQuestion/:itemIndex', (req, res) => {
+app.get('/getQuestion/:itemIndex/:pageIndex', (req, res) => {
+    //The numbers retrieved from the parameters could be generated here on the server side
+    //They are sent by the client solely for practice purposes with node parameters
     const index = req.params.itemIndex
+    const page = req.params.pageIndex
+    //To pick a random movie among the three present in the "known_for" property
+    const movieIndex = zeroOrOneOrTwo()
 
-    fetch(`https://api.themoviedb.org/3/person/popular?api_key=${apiKey}=en-US&page=1`)
+    fetch(`https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&language=en-US&page=${page}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             const results = data.results[index]
 
             res.json({response : {
                 actor: results.name,
                 actorPic: results.profile_path,
-                movie: results.known_for[0].title,
-                moviePic: results.known_for[0].poster_path
+                movie: results.known_for[movieIndex].title ?? results.known_for[movieIndex].name,
+                moviePic: results.known_for[movieIndex].poster_path
             }})
         })
-        .catch(err => console.log(err))
-})
-
-app.get('/checkAnswer/:movieId/:personId', (req, res) => {
-    const movieId = movieIds[req.params.movieId]
-    const personId = personIds[req.params.personId]
-
-    fetch(`https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${apiKey}&language=en-US`)
-        .then(res => res.json())
-        .then(data => {
-            const answer = data.cast.filter(item => item.id === movieId)
-
-            if (answer.length > 0) {
-                res.json({response: '1'}) //good answer 
-            } else {
-                res.json({response: '0'})  //wrong answer
-            }
-        })
+        .catch(err => console.log(err, index, page, movieIndex))
 })
 
 app.listen(3001, console.log('server started')) 

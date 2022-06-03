@@ -15,26 +15,9 @@ const Quizz = () => {
   const [score, setScore] = useState(0)
   const [timer, setTimer] = useState(60)
   const [tinder, setTinder] = useState(null)
-
-  /*randomActorId and randomMovieId have to be initialised here because 
-  //useState is asynchronous, therefore if not initialised here, 
-  //the fetch requests will be triggered with no value for randomActorId and
-  randomMovieId, generating an error*/
-  // const [randomActorId, setRandomActorId] = useState(Math.floor(Math.random() * 196))
-  // const [randomMovieId, setRandomMovieId] = useState(Math.floor(Math.random() * 436))
-
   const highscore = useContext(HighscoreContext)
   const gameOver = useContext(GameOverContext)
   const navigate = useNavigate()
-
-  //To generate random id of 0 or 1
-  const zeroOrOne = () => {
-    if (Math.random() < 0.5) {
-      return 0
-    } else {
-      return 1
-    }
-  }
 
   //To generate random index between 0 and 20
   const randomIndex = () => {
@@ -42,59 +25,42 @@ const Quizz = () => {
   }
 
   const getQuestion = () => {
-    //Numbers used to generate random ids come from getting lengths of filtered arrays(test.js)
-    // setRandomActorId(Math.floor(Math.random() * 196))
-    // setRandomMovieId(Math.floor(Math.random() * 436))
-
-    const match = zeroOrOne()
     const itemIndex = randomIndex()
+    //Must add 1 otherwise could generate an page index = 0, which would cause an error
+    const pageIndex = randomIndex() + 1
 
-    console.log(itemIndex)
-    
 
-    fetch(`http://localhost:3001/getQuestion/${itemIndex}`)
+    fetch(`http://localhost:3001/getQuestion/${itemIndex}/${pageIndex}`)
       .then(res => res.json())
-      .then(response => {
-        setActorName(response.actor)
-        setActorPicture(response.actorPic)
-        setMovieName(response.movie)
-        setMoviePicture(response.moviePic)
+      .then(data => {
+        setActorName(data.response.actor)
+        setActorPicture(data.response.actorPic)
+        setMovieName(data.response.movie)
+        setMoviePicture(data.response.moviePic)
       })
     
   }
 
-  // const validateAnswer = (id) => { 
-  //   fetch(`http://localhost:3001/checkAnswer/${randomMovieId}/${randomActorId}`)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       if (data.response === id) {
-  //         setScore(score + 1)
-  //       }
-
-  //       getQuestion()
-  //     })
-  //     .catch(err => console.log(err))
-  // }
-
   //To start the timer
-  // useEffect(() => {
-  //   const countdown = setTimeout(() => {
-  //       setTimer(timer - 1)
-  //   }, 1000)
+  useEffect(() => {
+    const countdown = setTimeout(() => {
+        setTimer(timer - 1)
+    }, 1000)
 
-  //   if (timer === 0) {
-  //       if (score > highscore.highscore) {
-  //         highscore.updateHighscore(score)
-  //       }
-  //       //Sets gammeOver.gameOver to true and therefore makes route to /game_over 
-  //       //accessible only when timer has reached 0
-  //       gameOver.updateGameOver()
-  //       navigate('/game_over')
-  //   }
+    if (timer === 0) {
+        if (score > highscore.highscore) {
+          highscore.updateHighscore(score)
+        }
+        //Sets gameOver.gameOver to true and therefore makes route to /game_over 
+        //accessible only when timer has reached 0
+        gameOver.updateGameOver()
+        navigate('/game_over')
+    }
 
-  //   return () => clearTimeout(countdown)
-  // }, [timer])
+    return () => clearTimeout(countdown)
+  }, [timer])
 
+  //When the component mounts, to start a game
   useEffect(() => {
     getQuestion()
   }, [])
@@ -133,6 +99,8 @@ const Quizz = () => {
                   id='1'
                   getQuestion={() => getQuestion()} 
                   setTinder={setTinder}
+                  setScore={setScore}
+                  score={score}
                   bg='green' 
           />
         </div>
