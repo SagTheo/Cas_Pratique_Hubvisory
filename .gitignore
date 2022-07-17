@@ -1,8 +1,1 @@
-/node_modules
-
-/ids/data/first_100000
-/ids/data/movieIdsChunks
-/ids/data/originalIds
-/ids/data/personIdsChunks
-
-.env
+/ids/
